@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Boolflix</title>
+  </head>
+  <body>
+    <!-- barra fissa top -->
+    <div class="navbarTop">
+      <!-- titolo -->
+      <h1>BOOLFLIX</h1>
+      <!-- sezione ricerca -->
+      <div class="ricercaFilm">
+        <input class="inputUtente" type="text" placeholder="Inserisci un titolo">
+        <button class="cerca" type="button" name="button">Cerca</button>
+      </div>
+    </div>
+
+    <!-- parte principale -->
+    <main>
+      <div class="films">
+        <!-- qui saranno inseriti i div con le caratteristiche di ciascun film trovato -->
+      </div>
+    </main>
+
+    <!-- gestione Handlebar -->
+    <script class="infoMovies" type="text/x-handlebars-template">
+      <div class="movie">
+        <img src="{{img}}" alt="">
+        <ul>
+          <li><span>Titolo: </span>{{titolo}}</li>
+          <li><span>Titolo Originale: </span> {{titoloOriginale}}</li>
+          <li><span>Lingua Originale: </span>{{lingua}}</li>
+          <li><span>Voto: </span> {{voto}}</li>
+        </ul>
+      </div>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+  </body>
+
+</html>

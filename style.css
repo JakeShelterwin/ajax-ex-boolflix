@@ -1,0 +1,112 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+/* ************************************************************************* */
+/* ******************************ROBA GENERALE****************************** */
+/* ************************************************************************* */
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+main {
+  margin-top: 60px;
+  padding: 0px 50px;
+}
+
+/* ************************************************************************* */
+/* ******************************NAVBAR FISSA TOP****************************** */
+/* ************************************************************************* */
+.navbarTop {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
+  padding: 0px 50px;
+}
+
+.navbarTop h1 {
+  color: red;
+}
+
+/* .ricecaFilm contiene l'input e il bottone */
+.ricercaFilm {
+  display: flex;
+  align-items: center;
+  flex
+  justify-content: center;
+  height: 60px;
+}
+
+/* gestisco le caratteristiche dei campi input */
+.navbarTop input {
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  outline: none;
+  font-size: 14px;
+  line-height: 22px;
+  color: black;
+  border: 1px rgba(0, 0, 0, 0) solid;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.navbarTop button {
+  padding: 8px 45px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: black;
+  border: none;
+  background-color: red;
+  outline: none;
+  font-size: 15px;
+}
+/* ************************************************************************* */
+/* ****************************** PARTE PRINCIPALE ************************* */
+/* ************************************************************************* */
+.films {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.films p{
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.movie{
+  display: flex;
+  width: calc(100% / 3 - 40px);
+  margin: 20px;
+  align-items: center;
+}
+
+.movie img {
+  width: 30%;
+  height: auto;
+  margin-right: 30px;
+}
+
+.movie ul {
+  margin: 10px 0;
+}
+
+.movie ul li {
+  margin: 2px 0;
+}
+
+.movie span {
+  font-size: 17px;
+  font-weight: bolder;
+}
