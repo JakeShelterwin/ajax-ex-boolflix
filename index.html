@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <script src="https://kit.fontawesome.com/15ec4d483d.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Boolflix</title>
@@ -20,20 +21,26 @@
 
     <!-- parte principale -->
     <main>
+      <div class="avvisi">
+      <!-- qui andranno gli avvisi se film e/o tv non sono stati trovati con la query inserita-->
+      </div>
       <div class="films">
         <!-- qui saranno inseriti i div con le caratteristiche di ciascun film trovato -->
       </div>
     </main>
 
     <!-- gestione Handlebar -->
+    <!-- alcuni valori hanno le triple graffe perché le graffe esterne dicono ad handlebar di considerare ciò che è dentro le altre 2 come codice html e non come stringa-->
     <script class="infoMovies" type="text/x-handlebars-template">
       <div class="movie">
         <img src="{{img}}" alt="">
+        <span class="tipologiaContenutoTrovato">{{tipo}}</span>
         <ul>
           <li><span>Titolo: </span>{{titolo}}</li>
           <li><span>Titolo Originale: </span> {{titoloOriginale}}</li>
-          <li><span>Lingua Originale: </span>{{lingua}}</li>
+          <li><span>Lingua Originale: </span> {{{lingua}}} </li>
           <li><span>Voto: </span> {{voto}}</li>
+          <li><span>Star Score: </span> {{{votoInStelle}}}</li>
         </ul>
       </div>
     </script>

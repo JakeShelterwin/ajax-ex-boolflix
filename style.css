@@ -17,6 +17,17 @@ main {
   padding: 0px 50px;
 }
 
+/* stelline */
+/* piena */
+.fas {
+  color: gold;
+  text-shadow: 0px 0px 2px black;
+}
+/* vuota */
+.far {
+  color: black;
+  text-shadow: 0px 0px 1px black;
+}
 /* ************************************************************************* */
 /* ******************************NAVBAR FISSA TOP****************************** */
 /* ************************************************************************* */
@@ -31,6 +42,7 @@ main {
   left: 0;
   background-color: black;
   padding: 0px 50px;
+  z-index: 999;
 }
 
 .navbarTop h1 {
@@ -72,6 +84,18 @@ main {
 /* ************************************************************************* */
 /* ****************************** PARTE PRINCIPALE ************************* */
 /* ************************************************************************* */
+
+.avvisi {
+  padding-top: 25px;
+  text-align: center;
+}
+
+.avvisi p{
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
 .films {
   display: flex;
   align-items: center;
@@ -79,20 +103,35 @@ main {
   flex-wrap: wrap;
 }
 
-.films p{
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bolder;
-}
-
-.movie{
+.movie {
+  position: relative;
   display: flex;
   width: calc(100% / 3 - 40px);
   margin: 20px;
   align-items: center;
+  transition: transform 0.1s;
 }
 
-.movie img {
+.movie:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 2px 7px rgba(93, 93, 93, 0.5);
+  background-color: rgba(93, 93, 93, 0.1);
+}
+
+.tipologiaContenutoTrovato {
+  position: absolute;
+  z-index: 15;
+  left: 50%;
+  top: 2%;
+  color: rgba(93, 93, 93, 0.8);
+}
+
+.movie:hover .tipologiaContenutoTrovato {
+  text-shadow: 0px 1px 1px rgba(93, 93, 93, 0.6);
+  transform: scale(1.1);
+}
+
+.movie>img {
   width: 30%;
   height: auto;
   margin-right: 30px;
@@ -104,6 +143,12 @@ main {
 
 .movie ul li {
   margin: 2px 0;
+}
+
+.movie ul li img {
+  width: 20px;
+  height: auto;
+  vertical-align: middle;
 }
 
 .movie span {
