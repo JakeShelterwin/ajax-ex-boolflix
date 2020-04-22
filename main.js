@@ -179,8 +179,8 @@ $(document).ready(function(){
 
   // questa funzione gestisce le bandierine
   function mostraBandieraOtesto(valore){
-    if (valore==="de"||valore==="en"||valore==="es"||valore==="fr"||valore==="it"||valore==="ja"){
-      var bandierina = "<img src='imgs/flags/flag"+valore+".png' alt=''>";
+    if (valore==="de"||valore==="en"||valore==="es"||valore==="fr"||valore==="it"||valore==="ja"||valore==="pt"||valore==="zh"){
+      var bandierina = "<img src='imgs/flags/"+valore+".png' alt=''>";
       return bandierina;
     } else{
       return valore;
