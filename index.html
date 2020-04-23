@@ -22,6 +22,11 @@
     <!-- parte principale -->
     <main>
       <div class="avvisi">
+        <select id="filtro">
+          <option class="everywhere" value="everywhere">Cerca Ovunque</option>
+          <option class="onlyFilm"value="onlyFilm">Film</option>
+          <option class="onlySeries" value="onlySeries">SerieTV</option>
+        </select>
       <!-- qui andranno gli avvisi se film e/o tv non sono stati trovati con la query inserita-->
       </div>
       <div class="films">
@@ -32,7 +37,7 @@
     <!-- gestione Handlebar -->
     <!-- alcuni valori hanno le triple graffe perché le graffe esterne dicono ad handlebar di considerare ciò che è dentro le altre 2 come codice html e non come stringa-->
     <script class="infoMovies" type="text/x-handlebars-template">
-      <div class="movie">
+      <div class="movie {{tipo}}">
         <img src="{{img}}" alt="">
         <span class="tipologiaContenutoTrovato">{{tipo}}</span>
         <ul>
@@ -41,6 +46,7 @@
           <li><span>Lingua Originale: </span> {{{lingua}}} </li>
           <li><span>Voto: </span> {{voto}}</li>
           <li><span>Star Score: </span> {{{votoInStelle}}} </li>
+          <li class="mostraAllHover"> {{{overView}}} </li>
         </ul>
       </div>
     </script>

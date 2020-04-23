@@ -24,6 +24,25 @@ $(document).ready(function(){
     }
   });
 
+  //quando gli elementi sono generati in modo appropiato, se l'utente vuole può selezionare e vedere solo film o serieTV o entrambi. Di default si mostrano sia serietv che film
+  $( ".avvisi" ).on( "change", "#filtro",
+  function() {
+      if ($("#filtro").val()==="everywhere"){
+        console.log("everywhere");
+        $(".movie.Film").show();
+        $(".movie.SerieTV").show();
+      } else if ($("#filtro").val()==="onlyFilm"){
+        console.log("film");
+        $(".movie.Film").show();
+        $(".movie.SerieTV").hide();
+      } else if ($("#filtro").val()==="onlySeries"){
+        console.log("tv");
+        $(".movie.Film").hide();
+        $(".movie.SerieTV").show();
+      }
+    }
+  );
+
   /***********************************/
   /****** FUNZIONI VARIE *****/
   /***********************************/
@@ -42,7 +61,7 @@ $(document).ready(function(){
             method: "GET",
             data: {
               api_key: "7ab1f00d1393dbddf2fd6b9abcef3d13",
-              language: "it_IT",
+              language: "en",
               query: ricercaUtente,
               page: 1
             },
@@ -55,39 +74,14 @@ $(document).ready(function(){
 
               //se non trovo nulla, dimmelo
               if (arrayFilmTrovati.length === 0){
+                $("#filtro").hide();
                 $(".avvisi").append("<p>Nessun Film Trovato</p>")
               }
               //altrimenti, per ogni opera salvata in arrayFilmTrovati fai un append in html
               else {
-                for (var i = 0; i < arrayFilmTrovati.length; i++) {
-                  // preparo i valori da usare nell'oggetto successivo per il voto in stelle e la lingua
-                  var votoInStelle=Math.ceil(((arrayFilmTrovati[i].vote_average)/2));
-                  // debug: controllo che funzioni
-                  // console.log(votoInStelle);
-                  var gestisceBandiera = arrayFilmTrovati[i].original_language
-                  // debug: controllo che funzioni
-                  // console.log(gestisceBandiera);
-                  // creo l'oggetto e lo riempio con i dati trovati
-                  var filmTrovato = {
-                    tipo: "Film",
-                    titolo: arrayFilmTrovati[i].title,
-                    titoloOriginale: arrayFilmTrovati[i].original_title,
-                    lingua: mostraBandieraOtesto(gestisceBandiera),
-                    voto: arrayFilmTrovati[i].vote_average,
-                    votoInStelle: calcolaStelleGiuste(votoInStelle),
-                    img: "https://image.tmdb.org/t/p/w500" + arrayFilmTrovati[i].poster_path
-                  }
-
-                  // se l'opera non ha una copertina, mostra un'immagine personalizzata
-                  if (arrayFilmTrovati[i].poster_path == null){
-                    filmTrovato.img = "imgs/image-not-found.png"
-                  }
-                  //applico Handelbars al film trovato
-                  var templateHtml = modelloSchedaFilm(filmTrovato);
-                  //e lo appendo in HTML
-                  $(".films").append(templateHtml)
-                }
+                generaOutput(arrayFilmTrovati, "Film");
               }
+              //fai lo stesso per le serie televisive
               trovaSerieTvCorrispondenti();
               //svuoto l'input utente
               $(".inputUtente").val("");
@@ -99,6 +93,9 @@ $(document).ready(function(){
       }
   }
 
+  //queste funzione oltre che trovare le serie tv gestisce anche l'apparizione del selettore per mostrare
+  // sia serie tv che film, o film, o serie tv ma il selettore compare solo se entrambe le funzioni
+  // (quella che genera film e quella genera tv) hanno fatto append() a qualcosa in html, quindi se sono state eseguite entrambe
   function trovaSerieTvCorrispondenti(){
     //prendi il valore inserito dall'utente
     var ricercaUtente = $(".inputUtente").val();
@@ -109,7 +106,7 @@ $(document).ready(function(){
           method: "GET",
           data: {
             api_key: "7ab1f00d1393dbddf2fd6b9abcef3d13",
-            language: "it_IT",
+            language: "en",
             query: ricercaUtente,
             page: 1
           },
@@ -122,37 +119,15 @@ $(document).ready(function(){
 
             //se non trovo nulla, dimmelo
             if (arrayFilmTrovati.length === 0){
+              $("#filtro").hide();
               $(".avvisi").append("<p>Nessuna serieTV Trovata</p>")
             }
             //altrimenti, per ogni opera salvata in arrayFilmTrovati fai un append in html
             else {
-              for (var i = 0; i < arrayFilmTrovati.length; i++) {
-                // preparo i valori da usare nell'oggetto successivo per il voto in stelle e la lingua
-                var votoInStelle=Math.ceil(((arrayFilmTrovati[i].vote_average)/2));
-                // debug: controllo che funzioni
-                // console.log(votoInStelle);
-                var gestisceBandiera = arrayFilmTrovati[i].original_language
-                // debug: controllo che funzioni
-                // console.log(gestisceBandiera);
-                // creo l'oggetto e lo riempio con i dati trovati
-                var filmTrovato = {
-                  tipo: "SerieTV",
-                  titolo: arrayFilmTrovati[i].name,
-                  titoloOriginale: arrayFilmTrovati[i].original_name,
-                  lingua: mostraBandieraOtesto(gestisceBandiera),
-                  voto: arrayFilmTrovati[i].vote_average,
-                  votoInStelle: calcolaStelleGiuste(votoInStelle),
-                  img: "https://image.tmdb.org/t/p/w500" + arrayFilmTrovati[i].poster_path
-                }
-
-                // se l'opera non ha una copertina, mostra un'immagine personalizzata
-                if (arrayFilmTrovati[i].poster_path == null){
-                  filmTrovato.img = "imgs/image-not-found.png"
-                }
-                //applico Handelbars al film trovato
-                var templateHtml = modelloSchedaFilm(filmTrovato);
-                //e lo appendo in HTML
-                $(".films").append(templateHtml)
+              generaOutput(arrayFilmTrovati, "SerieTV");
+              //gestisco l'apparizione del selettore, che appare solo se sono stati trovati sia film che serie tv
+              if ($(".films").find(".movie.Film").length>0 && $(".films").find(".movie.SerieTV").length>0){
+                $("#filtro").show();
               }
             }
           },
@@ -161,6 +136,47 @@ $(document).ready(function(){
           }
       })
     }
+}
+
+// Funzione Generale che forma l'oggetto da cui estrarre film e serieTV
+function generaOutput(listaOggetti, tipo) {
+  for (var i = 0; i < listaOggetti.length; i++) {
+    var elementoTrovato = listaOggetti[i];
+    var titolo, titoloOriginale;
+    // preparo i valori da usare nell'oggetto successivo per il voto in stelle
+    var votoInStelle=Math.ceil(((elementoTrovato.vote_average)/2));
+    // debug: controllo che funzioni
+    // console.log(votoInStelle);
+    // se tipo è movie
+    if(tipo === "Film"){
+      // allora var titoloGenerato = movie.title
+      titolo = elementoTrovato.title;
+      titoloOriginale = elementoTrovato.original_title;
+   // se tipo è tv
+    } else if (tipo === "SerieTV"){
+      titolo = elementoTrovato.name;
+      titoloOriginale = elementoTrovato.original_name;
+    }
+    // creo l'oggetto e lo riempio con i dati corrispondenti
+    var filmTrovato = {
+      tipo: tipo,
+      titolo: titolo,
+      titoloOriginale: titoloOriginale,
+      lingua: mostraBandieraOtesto(elementoTrovato.original_language),
+      voto: elementoTrovato.vote_average,
+      votoInStelle: calcolaStelleGiuste(votoInStelle),
+      img: "https://image.tmdb.org/t/p/w500" + elementoTrovato.poster_path,
+      overView: trovaOverview(elementoTrovato, tipo)
+    };
+    // se l'opera non ha una copertina, mostra un'immagine personalizzata
+    if (elementoTrovato.poster_path == null){
+      filmTrovato.img = "imgs/image-not-found.png"
+    }
+    //applico Handelbars all'opera trovata
+    var templateHtml = modelloSchedaFilm(filmTrovato);
+    //e lo appendo in HTML
+    $(".films").append(templateHtml)
+  }
 }
 
   // questa funzione mostra le stelle, piene per i punti positivi e vuote per i punti mancanti
@@ -180,10 +196,31 @@ $(document).ready(function(){
   // questa funzione gestisce le bandierine
   function mostraBandieraOtesto(valore){
     if (valore==="de"||valore==="en"||valore==="es"||valore==="fr"||valore==="it"||valore==="ja"||valore==="pt"||valore==="zh"){
-      var bandierina = "<img src='imgs/flags/"+valore+".png' alt=''>";
+      var bandierina = "<img src='imgs/flags/"+valore+".png' alt="+valore+">";
       return bandierina;
     } else{
       return valore;
+    }
+  }
+
+  // questa funzione gestisce l'overview sia per le serieTV che per i Film
+  function trovaOverview(valore, tipo){
+    //se il valore.overview non è vuoto e è maggiore di 250 caratteri,
+    //limitalo a 250 caratteri e aggiungi [...] per far vedere che interrotta
+    if (valore.overview!="" && valore.overview.length>250){
+      return "<span>Overview: </span>" + valore.overview.substring(0, 250) + "[...]";
+    }
+    //se non è vuota e non supera i 250 caratteri stampala
+    else if (valore.overview!=""){
+      return "<span>Overview: </span>" + valore.overview;
+    }
+    // altrimenti stampa il titolo dell'opera corrispondente
+    else{
+      if (tipo==="Film"){
+      return "<span>Titolo: </span>" + valore.title;
+      } else if (tipo==="SerieTV"){
+        return "<span>Titolo: </span>" + valore.name;
+      }
     }
   }
 
