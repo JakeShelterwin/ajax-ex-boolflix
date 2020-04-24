@@ -11,7 +11,7 @@
     <!-- barra fissa top -->
     <div class="navbarTop">
       <!-- titolo -->
-      <h1>BOOLFLIX</h1>
+      <img src="imgs/logo.png" alt="">
       <!-- sezione ricerca -->
       <div class="ricercaFilm">
         <input class="inputUtente" type="text" placeholder="Inserisci un titolo">
@@ -22,11 +22,16 @@
     <!-- parte principale -->
     <main>
       <div class="avvisi">
-        <select id="filtro">
-          <option class="everywhere" value="everywhere">Cerca Ovunque</option>
-          <option class="onlyFilm"value="onlyFilm">Film</option>
-          <option class="onlySeries" value="onlySeries">SerieTV</option>
-        </select>
+        <div class="selettori">
+          <select id="filtroGeneri">
+            <!-- tramite js verrà riempito dinamicamente a ogni ricerca -->
+          </select>
+          <select id="filtro">
+            <option value="everywhere">Cerca Ovunque</option>
+            <option value="onlyFilm">Film</option>
+            <option value="onlySeries">SerieTV</option>
+          </select>
+        </div>
       <!-- qui andranno gli avvisi se film e/o tv non sono stati trovati con la query inserita-->
       </div>
       <div class="films">
@@ -37,7 +42,7 @@
     <!-- gestione Handlebar -->
     <!-- alcuni valori hanno le triple graffe perché le graffe esterne dicono ad handlebar di considerare ciò che è dentro le altre 2 come codice html e non come stringa-->
     <script class="infoMovies" type="text/x-handlebars-template">
-      <div class="movie {{tipo}}">
+      <div class="movie {{tipo}}{{classe}}">
         <img src="{{img}}" alt="">
         <span class="tipologiaContenutoTrovato">{{tipo}}</span>
         <ul>
