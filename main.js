@@ -19,6 +19,8 @@ $(document).ready(function(){
   //gestisco comportamento quando clicco sul bottone cerca
   var arrayPerRiempireSelettoreGeneri = [];
   bottoneCerca.click(function(){
+    //nascondi il filtro generi, sarà mostrato se necessario tramite la funzione trovaFilmeSerieTvCorrispondenti
+    $("#filtroGeneri").hide();
     trovaFilmeSerieTvCorrispondenti();
     //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
     arrayPerRiempireSelettoreGeneri = [];
@@ -29,6 +31,8 @@ $(document).ready(function(){
     // 13 sta a significare il tasto invio, è witch resistuisce il tasto pigiato
     //For key or mouse events, "which" property indicates the specific key or button that was pressed.
     if (e.which == 13) {
+      //nascondi il filtro generi, sarà mostrato se necessario tramite la funzione trovaFilmeSerieTvCorrispondenti
+      $("#filtroGeneri").hide();
       trovaFilmeSerieTvCorrispondenti();
       //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
       arrayPerRiempireSelettoreGeneri = [];
