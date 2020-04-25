@@ -17,11 +17,11 @@ $(document).ready(function(){
   var modelloSchedaFilm = Handlebars.compile($(".infoMovies").html());
 
   //gestisco comportamento quando clicco sul bottone cerca
-  var arrayPerRiempireSelettoreGeneri = ["Mostra Tutto"];
+  var arrayPerRiempireSelettoreGeneri = [];
   bottoneCerca.click(function(){
     trovaFilmeSerieTvCorrispondenti();
     //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
-    arrayPerRiempireSelettoreGeneri = ["Mostra Tutto"];
+    arrayPerRiempireSelettoreGeneri = [];
   });
 
   //gestisco cosa succede quando premo il tasto invio sulla selezione .inputUtente
@@ -31,7 +31,7 @@ $(document).ready(function(){
     if (e.which == 13) {
       trovaFilmeSerieTvCorrispondenti();
       //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
-      arrayPerRiempireSelettoreGeneri = ["Mostra Tutto"];
+      arrayPerRiempireSelettoreGeneri = [];
     }
   });
 
@@ -296,13 +296,25 @@ function generaOutput(listaOggetti, tipo) {
       }
     }
     //mostro il selettore del genere solo se i generi sono almeno 2
-    //il < 3 indica questo, perché l'array contiene sempre l'opzione ripristina...
+    //il < 3 indica questo, perché l'array contiene sempre l'opzione "mostra tutto" che ripristina e mostra tutti i generi...
     //se a quell'opzione viene aggiunto un solo genere allora ho 2 elementi nel selettore
     if (arrayPerRiempireSelettoreGeneri.length<3){
       $("#filtroGeneri").hide();
     } else {
       $("#filtroGeneri").show();
     }
+    // ordino alfabeticamente i generi ottenuti
+    arrayPerRiempireSelettoreGeneri.sort();
+
+    //Adesso mi assicuro che comunque sia ordinato l'array, il primo elemento dell'array sia il valore "Mostra Tutto"
+    if ((arrayPerRiempireSelettoreGeneri.includes("Mostra Tutto"))){
+      for (var i = 0; i < arrayPerRiempireSelettoreGeneri.length; i++) {
+         if (arrayPerRiempireSelettoreGeneri[i]==="Mostra Tutto"){
+           arrayPerRiempireSelettoreGeneri.splice([i]);
+         }
+      }
+    }
+    arrayPerRiempireSelettoreGeneri.unshift("Mostra Tutto")
     // debug per vedere se funziona
     // console.log(arrayPerRiempireSelettoreGeneri);
     return stringaOttenuta;
@@ -377,7 +389,7 @@ function generaOutput(listaOggetti, tipo) {
         $("#filtroGeneri").append('<option value='+arrayPerRiempireSelettoreGeneri[i]+'>'+arrayPerRiempireSelettoreGeneri[i]+'</option>');
       }
       //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
-      arrayPerRiempireSelettoreGeneri = ["Mostra Tutto"];
+      arrayPerRiempireSelettoreGeneri = [];
       //debug, voglio controlalre di non aver fatto confusione
       // console.log("array al click movie",arrayPerRiempireSelettoreGeneri);
   }
