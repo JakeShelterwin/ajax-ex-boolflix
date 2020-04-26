@@ -56,7 +56,6 @@ main {
 .ricercaFilm {
   display: flex;
   align-items: center;
-  flex
   justify-content: center;
   height: 60px;
 }
@@ -237,7 +236,7 @@ main {
   .movie>img{
     width: 20%;
   }
-  
+
   .movie ul{
     font-size: 14px;
   }

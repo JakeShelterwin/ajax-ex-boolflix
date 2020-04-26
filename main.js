@@ -21,6 +21,8 @@ $(document).ready(function(){
   bottoneCerca.click(function(){
     //nascondi il filtro generi, sarà mostrato se necessario tramite la funzione trovaFilmeSerieTvCorrispondenti
     $("#filtroGeneri").hide();
+    //Ripristino il selettore film/SerieTV
+    $("#filtro").val("everywhere");
     trovaFilmeSerieTvCorrispondenti();
     //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
     arrayPerRiempireSelettoreGeneri = [];
@@ -33,6 +35,8 @@ $(document).ready(function(){
     if (e.which == 13) {
       //nascondi il filtro generi, sarà mostrato se necessario tramite la funzione trovaFilmeSerieTvCorrispondenti
       $("#filtroGeneri").hide();
+      //Ripristino il selettore film/SerieTV
+      $("#filtro").val("everywhere");
       trovaFilmeSerieTvCorrispondenti();
       //ripristino l'array se dentro c'era qualcosa, che si riempirà quando si richiama ciclaGeneri
       arrayPerRiempireSelettoreGeneri = [];
@@ -66,21 +70,22 @@ $(document).ready(function(){
       if (classe=="Mostra"){
         $(".movie").show();
       } else {
-        $(".movie").each(
-        function (){
-          if ($(this).hasClass(classe)){
-            $(this).show();
-          } else {
-            $(this).hide();
+          $(".movie").each(
+          function (){
+            if ($(this).hasClass(classe)){
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
           }
-        }
-      )}
+        );
+      }
     }
   );
 
   // trovo i generi di film e tv e li metto in 2 array
-  generaGeneriFilm()
-  generaGeneriSerieTV()
+  generaGeneriFilm();
+  generaGeneriSerieTV();
 
   /***********************************/
   /********** FUNZIONI VARIE *********/
@@ -92,8 +97,8 @@ $(document).ready(function(){
       // se l'utente ha inserito qualcosa, fai partire la ricerca
       if (ricercaUtente!=="") {
         //svuota eventuali film già cercati prima o avvisi che non è stato trovato nulla
-        $(".films").find(".movie").remove()
-        $(".avvisi p").remove()
+        $(".films").find(".movie").remove();
+        $(".avvisi p").remove();
         //chiamata Ajax per mostrare solo i film cercati
         $.ajax({
             url: "https://api.themoviedb.org/3/search/movie/",
@@ -114,7 +119,7 @@ $(document).ready(function(){
               //se non trovo nulla, dimmelo
               if (arrayFilmTrovati.length === 0){
                 $("#filtro").hide();
-                $(".avvisi").append("<p>Nessun Film Trovato</p>")
+                $(".avvisi").append("<p>Nessun Film Trovato</p>");
               }
               //altrimenti, per ogni opera salvata in arrayFilmTrovati fai un append in html
               else {
@@ -129,7 +134,7 @@ $(document).ready(function(){
             error: function(richiesta, stato, errore){
               $(".films").html("<p>Qualcosa non ha funzionato</p>");
             }
-        })
+        });
       }
   }
 
@@ -159,7 +164,7 @@ $(document).ready(function(){
             //se non trovo nulla, dimmelo
             if (arrayFilmTrovati.length === 0){
               $("#filtro").hide();
-              $(".avvisi").append("<p>Nessuna serieTV Trovata</p>")
+              $(".avvisi").append("<p>Nessuna serieTV Trovata</p>");
             }
             //altrimenti, per ogni opera salvata in arrayFilmTrovati fai un append in html
             else {
@@ -174,7 +179,7 @@ $(document).ready(function(){
           error: function(richiesta, stato, errore){
             $(".films").html("<p>Qualcosa non ha funzionato</p>");
           }
-      })
+      });
     }
 }
 
@@ -215,12 +220,12 @@ function generaOutput(listaOggetti, tipo) {
     };
     // se l'opera non ha una copertina, mostra un'immagine personalizzata
     if (elementoTrovato.poster_path == null){
-      filmTrovato.img = "imgs/image-not-found.png"
+      filmTrovato.img = "imgs/image-not-found.png";
     }
     //applico Handelbars all'opera trovata
     var templateHtml = modelloSchedaFilm(filmTrovato);
     //e lo appendo in HTML
-    $(".films").append(templateHtml)
+    $(".films").append(templateHtml);
   }
 }
 
@@ -312,13 +317,13 @@ function generaOutput(listaOggetti, tipo) {
 
     //Adesso mi assicuro che comunque sia ordinato l'array, il primo elemento dell'array sia il valore "Mostra Tutto"
     if ((arrayPerRiempireSelettoreGeneri.includes("Mostra Tutto"))){
-      for (var i = 0; i < arrayPerRiempireSelettoreGeneri.length; i++) {
-         if (arrayPerRiempireSelettoreGeneri[i]==="Mostra Tutto"){
-           arrayPerRiempireSelettoreGeneri.splice([i]);
+      for (var y = 0; y < arrayPerRiempireSelettoreGeneri.length; y++) {
+         if (arrayPerRiempireSelettoreGeneri[y]==="Mostra Tutto"){
+           arrayPerRiempireSelettoreGeneri.splice([y]);
          }
       }
     }
-    arrayPerRiempireSelettoreGeneri.unshift("Mostra Tutto")
+    arrayPerRiempireSelettoreGeneri.unshift("Mostra Tutto");
     // debug per vedere se funziona
     // console.log(arrayPerRiempireSelettoreGeneri);
     return stringaOttenuta;
@@ -352,7 +357,7 @@ function generaOutput(listaOggetti, tipo) {
         error: function(richiesta, stato, errore){
           console.log("ListaGeneriFilm non trovata");
         }
-    })
+    });
   }
 
   //popola un array con i generi trovati di SerieTV e le stringhe relative
@@ -382,7 +387,7 @@ function generaOutput(listaOggetti, tipo) {
         error: function(richiesta, stato, errore){
           console.log("ListaGeneriSerieTV non trovata");
         }
-    })
+    });
   }
   //prepara selettore con i generi corrispondenti
   function preparaSelettoreGeneri(){
@@ -398,4 +403,4 @@ function generaOutput(listaOggetti, tipo) {
       // console.log("array al click movie",arrayPerRiempireSelettoreGeneri);
   }
 
-})
+});
